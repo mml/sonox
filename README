@@ -1,0 +1,22 @@
+This script relies on nothing but core Perl modules and is able to
+tell you about solstices and equinoxes in local time from 2004 to
+2017.  It assumes you are in the Northern hemisphere.
+
+It's in progress.  Right now, it just proves the concept with --since
+and --last.
+
+I've written several scripts to combine astronomical calculations with
+calendrical and come up with local times for the equinoxes, solstices,
+cross-quarter days, etc.  But they end up being very non-portable
+because of huge library dependencies.
+
+I would like a script I can run anywhere that can at least tell me
+some basic info about the current time and its relation to the
+seasons.  It finally dawned on me that if I didn't try to do astro
+calculations, this would be easy.
+
+TODO
+- Finish it.
+- Let user specify Southern hemisphere.
+- Expand the data set.
+- Write --help.
