@@ -22,7 +22,7 @@ die unless GetOptions(
     'year:i' => \$year,
 );
 
-for ( \$last, \$next, \$year ) {
+for ( \$last, \$next ) {
     $$_ = 1 if defined $$_ and 0 == $$_;
 }
 
