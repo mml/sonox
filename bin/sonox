@@ -31,10 +31,24 @@ $since |= not ( $until or $last or $next or $year );
 
 my $now = time;
 
-if ( $since or $last ) {
+if ( $since or $last or $until or $next ) {
     my ( $before, $after ) = straddle($now);
-    printf "%s +%d\n", $before->{type}, ($now - $before->{when})/86_400 if $since;
-    print strftime("$before->{type}: %F %H%M%z (%a)\n", localtime $before->{when}) if $last;
+    print_offset( $now, $before ) if $since;
+    print_offset( $now, $after ) if $until;
+    print_event( $before ) if $last;
+    print_event( $after ) if $next;
+}
+
+sub print_offset {
+    my ( $now, $event ) = @_;
+
+    printf "%s %+d\n", $event->{type}, ($now - $event->{when})/86_400;
+}
+
+sub print_event {
+    my ( $event ) = @_;
+
+    print strftime("$event->{type}: %F %H%M%z (%a)\n", localtime $event->{when});
 }
 
 # Given a point in time, returns the celestial events that occur last before and
