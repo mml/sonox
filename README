@@ -2,8 +2,20 @@ This script relies on nothing but core Perl modules and is able to
 tell you about solstices and equinoxes in local time from 2004 to
 2017.  It assumes you are in the Northern hemisphere.
 
-It's in progress.  Right now, only --since, --last, --until, and --next are
-implemented.
+    Usage: sonox [OPTIONS]
+
+    If no OPTIONS, defaults to --since.
+
+      -h, --help    This text.
+      --since       Show number of days since last solstice or equinox.
+      --until       Show number of days until next solstice or equinox.
+      --last[=N]*   Show last N solstices and equinoxes.
+      --next[=N]*   Show next N solstices and equinoxes.
+      --year[=Y]**  Show all 4 solstices and equinoxes for the year Y.
+
+    * N defaults to 1.  But values other than 1 aren't currently implemented.
+
+    ** This feature not yet implemented.  Y defaults to the current year.
 
 I've written several scripts to combine astronomical calculations with
 calendrical and come up with local times for the equinoxes, solstices,
