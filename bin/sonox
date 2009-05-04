@@ -5,6 +5,25 @@ use POSIX 'strftime';
 use Time::Local 'timegm';
 Getopt::Long::Configure('bundling');
 
+sub usage() {
+    die <<EOT
+Usage: sonox [OPTIONS]
+
+If no OPTIONS, defaults to --since.
+
+  -h, --help    This text.
+  --since       Show number of days since last solstice or equinox.
+  --until       Show number of days until next solstice or equinox.
+  --last[=N]*   Show last N solstices and equinoxes.
+  --next[=N]*   Show next N solstices and equinoxes.
+  --year[=Y]**  Show all 4 solstices and equinoxes for the year Y.
+
+* N defaults to 1.  But values other than 1 aren't currently implemented.
+
+** This feature not yet implemented.  Y defaults to the current year.
+EOT
+}
+
 my %type = (
     '03' => 'Vernal',
     '06' => 'Summer',
@@ -12,15 +31,18 @@ my %type = (
     '12' => 'Winter',
 );
 
-my ( $since, $until, $last, $next, $year );
+my ( $help, $since, $until, $last, $next, $year );
 
-die unless GetOptions(
+usage unless GetOptions(
+    'help|h' => \$help,
     'since'  => \$since,
     'until'  => \$until,
     'last:i' => \$last,
     'next:i' => \$next,
     'year:i' => \$year,
 );
+
+usage if $help;
 
 for ( \$last, \$next ) {
     $$_ = 1 if defined $$_ and 0 == $$_;
