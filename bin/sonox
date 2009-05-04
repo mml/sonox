@@ -32,17 +32,35 @@ $since |= not ( $until or $last or $next or $year );
 my $now = time;
 
 if ( $since or $last ) {
-    my ( $event, $type );
+    my ( $before, $after ) = straddle($now);
+    printf "%s +%d\n", $before->{type}, ($now - $before->{when})/86_400 if $since;
+    print strftime("$before->{type}: %F %H%M%z (%a)\n", localtime $before->{when}) if $last;
+}
+
+# Given a point in time, returns the celestial events that occur last before and
+# first after that point.
+sub straddle {
+    my ($now) = @_;
+    my ( $before, $after );
     EVENT: while (<DATA>) {
-        chomp;
-        my @when = /(\d+)-(\d+)-(\d+)T(\d+):(\d+)Z/;
-        my $when = timegm 0, $when[4], $when[3], $when[2], $when[1]-1, $when[0];
-        last EVENT if $when > $now;
-        $event = $when;
-        $type = $type{$when[1]};
+        $after = make_event($_);
+        last EVENT if $after->{when} > $now;
+        $before = $after;
     }
-    printf "%s +%d\n", $type, ($now - $event)/86_400 if $since;
-    print strftime("$type: %F %H%M%z (%a)\n", localtime $event) if $last;
+
+    return ( $before, $after );
+}
+
+# Given a point an ISO8601 time, return a hash representing that event.
+sub make_event {
+    my ($iso8601) = @_;
+    my %event;
+
+    my @when = $iso8601 =~ /(\d+)-(\d+)-(\d+)T(\d+):(\d+)Z/;
+    $event{when} = timegm 0, $when[4], $when[3], $when[2], $when[1]-1, $when[0];
+    $event{type} = $type{$when[1]};
+
+    return { %event };
 }
 
 # Below here, ISO8601 times for solstices and equinoxes for 2004-2017, in time
