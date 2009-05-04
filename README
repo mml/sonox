@@ -2,8 +2,8 @@ This script relies on nothing but core Perl modules and is able to
 tell you about solstices and equinoxes in local time from 2004 to
 2017.  It assumes you are in the Northern hemisphere.
 
-It's in progress.  Right now, it just proves the concept with --since
-and --last.
+It's in progress.  Right now, only --since, --last, --until, and --next are
+implemented.
 
 I've written several scripts to combine astronomical calculations with
 calendrical and come up with local times for the equinoxes, solstices,
