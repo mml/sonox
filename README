@@ -7,6 +7,7 @@ tell you about solstices and equinoxes in local time from 2004 to
     If no OPTIONS, defaults to --since.
 
       -h, --help    This text.
+      --southern    Assume Southern hemisphere rather than Northern.
       --since       Show number of days since last solstice or equinox.
       --until       Show number of days until next solstice or equinox.
       --last[=N]*   Show last N solstices and equinoxes.
@@ -29,5 +30,4 @@ calculations, this would be easy.
 
 TODO
 - Finish it.
-- Let user specify Southern hemisphere.
 - Expand the data set.
