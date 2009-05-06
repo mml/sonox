@@ -21,7 +21,7 @@ If no OPTIONS, defaults to --since.
 
 * N defaults to 1.  But values other than 1 aren't currently implemented.
 
-** This feature not yet implemented.  Y defaults to the current year.
+** Y defaults to the current year.
 EOT
 }
 
@@ -46,14 +46,16 @@ usage unless GetOptions(
 
 usage if $help;
 
+my $now = time;
+
 for ( \$last, \$next ) {
     $$_ = 1 if defined $$_ and 0 == $$_;
 }
 
+$year = 1900 + (localtime $now)[5] if defined $year and 0 == $year;
+
 # Default to --since.
 $since |= not ( $until or $last or $next or $year );
-
-my $now = time;
 
 if ( $since or $last or $until or $next ) {
     my ( $before, $after ) = straddle($now);
@@ -61,6 +63,10 @@ if ( $since or $last or $until or $next ) {
     print_offset( $now, $after ) if $until;
     print_event( $before ) if $last;
     print_event( $after ) if $next;
+}
+
+if ($year) {
+    print_event( make_event($_) ) for grep /^$year-/, <DATA>;
 }
 
 sub print_offset {
