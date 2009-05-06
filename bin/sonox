@@ -35,13 +35,13 @@ my %type = (
 my ( $help, $southern, $since, $until, $last, $next, $year );
 
 usage unless GetOptions(
-    'help|h' => \$help,
+    'help|h'   => \$help,
     'southern' => \$southern,
-    'since'  => \$since,
-    'until'  => \$until,
-    'last:i' => \$last,
-    'next:i' => \$next,
-    'year:i' => \$year,
+    'since'    => \$since,
+    'until'    => \$until,
+    'last:i'   => \$last,
+    'next:i'   => \$next,
+    'year:i'   => \$year,
 );
 
 usage if $help;
