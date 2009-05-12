@@ -11,15 +11,15 @@ Usage: sonox [OPTIONS]
 
 If no OPTIONS, defaults to --since.
 
-  -h, --help    This text.
-  --southern    Assume Southern hemisphere rather than Northern.
-  --since       Show number of days since last solstice or equinox.
-  --until       Show number of days until next solstice or equinox.
-  --last[=N]*   Show last N solstices and equinoxes.
-  --next[=N]*   Show next N solstices and equinoxes.
-  --year[=Y]**  Show all 4 solstices and equinoxes for the year Y.
+  -h, --help        This text.
+  -S, --southern    Assume Southern hemisphere rather than Northern.
+  -s, --since       Show number of days since last solstice or equinox.
+  -u, --until       Show number of days until next solstice or equinox.
+  -l, --last[=N]*   Show last N solstices and equinoxes.
+  -n, --next[=N]*   Show next N solstices and equinoxes.
+  -y, --year[=Y]**  Show all 4 solstices and equinoxes for the year Y.
 
-* N defaults to 1.  But values other than 1 aren't currently implemented.
+* N defaults to 1.
 
 ** Y defaults to the current year.
 EOT
@@ -35,13 +35,13 @@ my %type = (
 my ( $help, $southern, $since, $until, $last, $next, $year );
 
 usage unless GetOptions(
-    'help|h'   => \$help,
-    'southern' => \$southern,
-    'since'    => \$since,
-    'until'    => \$until,
-    'last:i'   => \$last,
-    'next:i'   => \$next,
-    'year:i'   => \$year,
+    'help|h'     => \$help,
+    'southern|S' => \$southern,
+    'since|s'    => \$since,
+    'until|u'    => \$until,
+    'last|l:i'   => \$last,
+    'next|n:i'   => \$next,
+    'year|y:i'   => \$year,
 );
 
 usage if $help;
@@ -58,11 +58,14 @@ $year = 1900 + (localtime $now)[5] if defined $year and 0 == $year;
 $since |= not ( $until or $last or $next or $year );
 
 if ( $since or $last or $until or $next ) {
-    my ( $before, $after ) = straddle($now);
-    print_offset( $now, $before ) if $since;
-    print_offset( $now, $after ) if $until;
-    print_event( $before ) if $last;
-    print_event( $after ) if $next;
+    my ( $before, $after ) = partition($now);
+    if ( $last or $next ) {
+        my @events = $last ? @$before[-$last .. -1]
+                           : @$after[0 .. $next-1];
+        print_event( $_ ) for @events;
+    }
+    print_offset( $now, $before->[-1] ) if $since;
+    print_offset( $now, $after->[0] )   if $until;
 }
 
 if ($year) {
@@ -81,15 +84,18 @@ sub print_event {
     print strftime("$event->{type}: %F %H%M%z (%a)\n", localtime $event->{when});
 }
 
-# Given a point in time, returns the celestial events that occur last before and
-# first after that point.
-sub straddle {
+# Given a point in time, T, return two listrefs: the list of events before (and
+# possibly including) T, and the list of events after T.
+sub partition {
     my ($now) = @_;
-    my ( $before, $after );
+    my ( $before, $after ) = ( [], [] );
     EVENT: while (<DATA>) {
-        $after = make_event($_);
-        last EVENT if $after->{when} > $now;
-        $before = $after;
+        my $e = make_event($_);
+        if ( @$after or $e->{when} > $now ) {
+            push @$after, $e;
+        } else {
+            push @$before, $e;
+        }
     }
 
     return ( $before, $after );
