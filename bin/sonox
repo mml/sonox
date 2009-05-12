@@ -12,6 +12,7 @@ Usage: sonox [OPTIONS]
 If no OPTIONS, defaults to --since.
 
   -h, --help        This text.
+  -N, --northern    Assume Northern hemisphere rather than Southern. (default)
   -S, --southern    Assume Southern hemisphere rather than Northern.
   -s, --since       Show number of days since last solstice or equinox.
   -u, --until       Show number of days until next solstice or equinox.
@@ -22,6 +23,9 @@ If no OPTIONS, defaults to --since.
 * N defaults to 1.
 
 ** Y defaults to the current year.
+
+Northern hemisphere is the default unless the SONOX_SOUTHERN environment
+variable is set to 1.
 EOT
 }
 
@@ -32,11 +36,14 @@ my %type = (
     11 => 'Winter',
 );
 
-my ( $help, $southern, $since, $until, $last, $next, $year );
+my ( $help, $northern, $southern, $since, $until, $last, $next, $year );
+
+$southern = $ENV{SONOX_SOUTHERN};
 
 usage unless GetOptions(
     'help|h'     => \$help,
     'southern|S' => \$southern,
+    'northern|N' => \$northern,
     'since|s'    => \$since,
     'until|u'    => \$until,
     'last|l:i'   => \$last,
@@ -47,6 +54,8 @@ usage unless GetOptions(
 usage if $help;
 
 my $now = time;
+
+$southern = 0 if $northern;
 
 for ( \$last, \$next ) {
     $$_ = 1 if defined $$_ and 0 == $$_;

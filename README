@@ -7,7 +7,8 @@ tell you about solstices and equinoxes in local time from 2004 to
     If no OPTIONS, defaults to --since.
 
       -h, --help        This text.
-      --southern        Assume Southern hemisphere rather than Northern.
+      -N, --northern    Assume Northern hemisphere rather than Southern. (default)
+      -S, --southern    Assume Southern hemisphere rather than Northern.
       -s, --since       Show number of days since last solstice or equinox.
       -u, --until       Show number of days until next solstice or equinox.
       -l, --last[=N]*   Show last N solstices and equinoxes.
@@ -17,6 +18,9 @@ tell you about solstices and equinoxes in local time from 2004 to
     * N defaults to 1.
 
     ** Y defaults to the current year.
+
+    Northern hemisphere is the default unless the SONOX_SOUTHERN environment
+    variable is set to 1.
 
 I've written several scripts to combine astronomical calculations with
 calendrical and come up with local times for the equinoxes, solstices,
