@@ -1,6 +1,6 @@
 This script relies on nothing but core Perl modules and is able to
-tell you about solstices and equinoxes in local time from 2004 to
-2017.  It assumes you are in the Northern hemisphere.
+tell you about solstices and equinoxes in local time from 2000 through
+2020.  It assumes you are in the Northern hemisphere.
 
     Usage: sonox [OPTIONS]
 
