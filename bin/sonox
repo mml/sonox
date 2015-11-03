@@ -132,7 +132,7 @@ sub type {
     return $type{$month};
 }
 
-# Below here, ISO8601 times for solstices and equinoxes for 2004-2017, in time
+# Below here, ISO8601 times for solstices and equinoxes for 2000-2020, in time
 # order, pulled from http://aa.usno.navy.mil/data/docs/EarthSeasons.php
 __DATA__
 2000-03-20T07:35Z
