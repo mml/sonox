@@ -134,6 +134,8 @@ sub type {
 
 # Below here, ISO8601 times for solstices and equinoxes for 2000-2020, in time
 # order, pulled from http://aa.usno.navy.mil/data/docs/EarthSeasons.php
+# Data for 2021-2025 pulled from https://www.weather.gov/media/ind/seasons.pdf
+# since the USNO site appears to be down for "modernization"
 __DATA__
 2000-03-20T07:35Z
 2000-06-21T01:48Z
