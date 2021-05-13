@@ -68,6 +68,9 @@ $since |= not ( $until or $last or $next or $year );
 
 if ( $since or $last or $until or $next ) {
     my ( $before, $after ) = partition($now);
+    if ($#$after == -1) {
+      warn "WARNING: Database has no events after today.  Result may be incorrect.\n";
+    }
     if ( $last or $next ) {
         my @events = $last ? @$before[-$last .. -1]
                            : @$after[0 .. $next-1];
