@@ -27,10 +27,18 @@ calendrical and come up with local times for the equinoxes, solstices,
 cross-quarter days, etc.  But they end up being very non-portable
 because of huge library dependencies.
 
-I would like a script I can run anywhere that can at least tell me
+I wanted a script I could run anywhere that could at least tell me
 some basic info about the current time and its relation to the
 seasons.  It finally dawned on me that if I didn't try to do astro
-calculations, this would be easy.
+calculations, it would be pretty easy in Perl with core modules.
 
 TODO
 - Expand the data set.
+- A little testing wouldn't hurt.
+- Option to install w/ symlink would make updating easier.
+- Support setting both -l and -n... -u and -s already work together, but why not
+  both -l and -n?
+- Detect not just when @$after is empty, but also when the last element of
+  @$before is > 100 days old (strong signal the results are bogus)
+- Bounds checking in the rest of the code.
+- A little less Perl cleverness.
