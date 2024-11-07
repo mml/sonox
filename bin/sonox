@@ -93,7 +93,7 @@ sub print_offset {
 sub print_event {
     my ( $event ) = @_;
 
-    print strftime("$event->{type}: %F %H%M%z (%a)\n", localtime $event->{when});
+    printf "%8.8s: %s\n", $event->{type}, strftime("%F %H%M%z (%a)", localtime $event->{when});
 }
 
 # Given a point in time, T, return two listrefs: the list of events before (and
