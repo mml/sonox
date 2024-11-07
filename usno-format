@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+jq -r '.data | .[]
+| select (.phenom | contains("Equinox") or contains("Solstice"))
+| "\(.year)-\(.month)-\(.day)T\(.time)Z"
+| strptime("%Y-%m-%dT%H:%MZ") | strftime("%FT%H:%MZ")'
