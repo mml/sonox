@@ -139,7 +139,8 @@ sub type {
 # order, pulled from http://aa.usno.navy.mil/data/docs/EarthSeasons.php
 # Data for 2021-2025 pulled from https://www.weather.gov/media/ind/seasons.pdf
 # since the USNO site appears to be down for "modernization"
-# Data for 2026-2037 come from the new USNO JSON API.
+# Data for 2026-2037 come from the new USNO JSON API documented at
+# https://aa.usno.navy.mil/data/api
 __DATA__
 2000-03-20T07:35Z
 2000-06-21T01:48Z
